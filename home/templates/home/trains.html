@@ -1,0 +1,56 @@
+{% if user.is_authenticated %}
+
+<div id="trains-section">
+<!-- <form  method="Post" id="like_post">-->
+    <br>
+                 {% csrf_token %}
+                 <div class="form-group">
+        
+                     <input type="text" id="source" name="source" value="" placeholder="source" >
+                     <input type="text" id="destination" name="destination" value="" placeholder="destination" >
+                     <input type="date" id="date" name="date" placeholder="Date">
+                    <button type="button" id="hi" class="btn btn-primary">Submit</button>
+                    </div>
+
+
+<!--   </form>-->
+
+   {{trains.count}}
+{% for train in trains%}
+ <li>    
+   <a href="{%url 'home-book' train.id%}">{{train.name}}</a>- {{train.source}} {{train.departure_time}} - {{train.destination}} {{train.arrival_time}}</li>
+        
+ {% endfor%}
+{% endif %}
+</div>
+  <script>
+  
+  $(document).ready(function() {
+$('#hi').click(function(){
+    var source,destination,date;
+    source = $('#source').val();
+    destination = $('#destination').val();
+      $.ajax({  
+               type: "POST",
+               url: "trains/",
+               data: {'source': source,
+                       'destination': destination,
+                       'date':date,
+
+               'csrfmiddlewaretoken': '{{ csrf_token }}'},
+               dataType: "json",
+               
+               success: function(response) {
+               $('#trains-section').html(response['form'])
+        
+// <!--                      alert(response.message); -->
+// <!--                      alert('Company likes count is now');-->
+                },
+                error: function(rs, e) {
+                       alert(rs.responseText);
+                }
+          });
+    });
+    });
+</script>
+

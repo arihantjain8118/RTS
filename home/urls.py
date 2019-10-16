@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-
-from home import views
+from .views import starting,trains,ticketbook,ticketbk
 
 
 urlpatterns = [
-    path('', views.start, name='home-home'),
+    path('', starting, name="home-home"),
+    path('trains/',trains,name="home-trains"),
+    path('book/<int:id>',ticketbook,name="home-book"),
+    path('tickbk/',ticketbk,name="home-bk")
 ]
