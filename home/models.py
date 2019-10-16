@@ -3,7 +3,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 # Create your models here.
-class Train(models.Model):
+# Train model
+class Train(models.Model):                   
     name = models.CharField(max_length=100)
     number = models.CharField(max_length=100)
     source = models.CharField(max_length=100)
@@ -28,6 +29,7 @@ class Train(models.Model):
 #     def __str__(self):
 #         return "%s's " % self.train.name + self.seat_id
 
+#ticket model
 class Ticket(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     pnr = models.CharField(max_length=100)
@@ -39,4 +41,3 @@ class Ticket(models.Model):
     
     def __str__(self):
         return "%s " % self.passenger_name + self.pnr
-

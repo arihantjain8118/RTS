@@ -8,4 +8,5 @@ urlpatterns = [
     path('trains/',trains,name="home-trains"),
     path('book/<int:id>',ticketbook,name="home-book"),
     path('tickbk/',ticketbk,name="home-bk")
+    path('datepi/',FengyuanChenDatePickerInput,name="home-dp")
 ]
