@@ -5,6 +5,12 @@ from datetime import date
 
 from django.contrib.auth.models import User
 # Create your models here.
+class Day(models.Model):
+    day = models.CharField(max_length=100)
+
+    def __str__(self):
+        return  self.day
+
 class Train(models.Model):
     name = models.CharField(max_length=100)
     number = models.CharField(max_length=100)
@@ -14,6 +20,7 @@ class Train(models.Model):
     arrival_time = models.TimeField(max_length=100)
     status = models.CharField(max_length=100)
     amount = models.IntegerField()
+    day = models.ManyToManyField(Day)
     
     def __str__(self):
         return "%s Train" % self.name
