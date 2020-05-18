@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -138,3 +139,4 @@ EMAIL_PORT = 587
 
 STRIPE_SECRET_KEY = 'sk_test_u1WSPJWxba6qVuZ3FK7IfjrN00QSC9wM1u'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_RCcjQ4mB074EbIRS3MSc48oP001OKK0T2i'
+django_heroku.settings(locals())
