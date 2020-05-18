@@ -24,11 +24,11 @@ def reg(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            current_site = 'http://127.0.0.1:8000'
+            current_site = get_current_site(request)
             mail_subject = 'Activate your RTS account.'
             message = render_to_string('home/acc_active_email.html', {
                 'user': user,
-                'domain': 'http://127.0.0.1:8000',
+                'domain': current_site.domain,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })

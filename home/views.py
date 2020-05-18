@@ -7,6 +7,7 @@ from django.conf import settings # new
 from django.views.generic.base import TemplateView
 from datetime import date
 import json
+from django.contrib import messages
 
 
 # Create your views here.
@@ -19,6 +20,7 @@ def starting(request):
         destination = request.POST.get('destination',None)
         dat = request.POST.get('date',None)
         if str(date.today()) > dat:
+            messages.warning(request, f'You have entered a past date')
             return render(request,'home/starting.html',{'user':user})
         print(source)
         print(destination)
@@ -114,6 +116,7 @@ def realbook(request,id,date):
         )
         ticke.save()
         print(ticke)
+        messages.success(request, f'You Ticket has been Booked Successfully')
         return redirect('tickt', pnr=pnr)
 
 
@@ -145,6 +148,7 @@ def canceltic(request,pnr):
                     ti.delete()
                     break
         tic.delete()
+    messages.success(request, f'You Ticket has been Cancelled Successfully')
     return redirect('home-home')
 
 def pnrstatus(request):
