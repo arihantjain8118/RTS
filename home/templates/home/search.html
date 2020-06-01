@@ -12,6 +12,7 @@
     {{train.name}}<br> 
     {{train.source}} - {{train.departure_time}} -> {{train.destination}} {{train.arrival_time}}
     <p>Availability :  <b>{{train.count}}</b></p>
+  <p>Amount :  <b>{{train.amount}}</b></p>
     <a href="{%url 'home-bookform' train.id train.date%}"><button>Book</button></a>
   </li>
   {% endfor %}
