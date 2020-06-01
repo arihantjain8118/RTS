@@ -1,0 +1,46 @@
+
+{% extends './basic.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+    <br>
+
+<!-- 
+  <div>
+   <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div> -->
+
+    <!-- <form  method="Post" id="like_post">-->
+        <br>
+                     
+                     {% comment %} <div class="form-group">
+            <form action="realbook/" method="post">
+                {% csrf_token %}
+                         <input type="text" id="name" name="name" value="" placeholder="Name" >
+                         <input type="number" id="age" name="age" value="" placeholder="Age" >
+                         <!-- <input type="date" id="date" name="date"  placeholder="Date"> -->
+                         {% comment %} <button type="submit"  value="Submit">Submit</button> {% endcomment %}
+                         {% comment %} <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ key }}"
+                        data-description="Ticket Charge"
+                        data-amount="{{ amount }}"
+                        data-locale="auto"></script>
+                    </form>     {% endcomment %}
+                    {% comment %} </div>  {% endcomment %}
+
+        <form action="realbook/" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+         <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ key }}"
+                        data-description="Ticket Charge"
+                        data-amount="{{ amount }}"
+                        data-locale="auto"></script>
+    </form>
+
+
+{% endblock main %}

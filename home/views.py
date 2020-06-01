@@ -164,6 +164,110 @@ def realbook(request,id,date):
         messages.success(request, f'You Ticket has been Booked Successfully')
         return redirect('tickt', pnr=pnr)
 
+def ticketbook2(request,id1,id2,date):
+    train1 = Train.objects.filter(id=id1).first()
+    train2 = Train.objects.filter(id=id2).first()
+    train1.date=date
+    print("ticketbokk")
+    print(date)
+    return render(request,'home/book2.html',{'train1':train1,'train2':train2})
+
+def ticketbk2(request,id1,id2,date):
+    print("aayay habhah")    
+    form = ticket()
+    key = settings.STRIPE_PUBLISHABLE_KEY
+    train1 = Train.objects.filter(id=id1).first()
+    train2 = Train.objects.filter(id=id2).first()
+    train1.date=date
+    amount = train1.amount + train2.amount
+    return render(request,'home/tick2.html',{'form':form, 'key':key, 'amount':amount})
+
+def realbook2(request,id1,id2,date):
+    if request.method == 'POST':
+        form = ticket(request.POST)
+        if form.is_valid():
+            passenger_name = form.cleaned_data.get('passenger_name')
+            age = form.cleaned_data.get('age')
+            print(passenger_name)
+        user=request.user
+        train1 = Train.objects.filter(id=id1).first()
+        tcount = Ticket.objects.filter(date=date)
+        g=0
+        seatnos=[]
+        for i in range(1,20):
+            seatnos.append(0)
+        for i in tcount:
+                if i.train == train1:
+                        seatnos[i.seatno]=1;
+                        g=g+1
+        if g>=3:
+                status = "Waiting List"
+                seatno = 15
+        # return render(request,'home/starting.html')
+        else:
+            for i in range(1,4):
+                if seatnos[i]==0:
+                    seatno=i
+                    break
+            status = "Confirm"
+        o = str(date)
+        p = o[0:4]
+        p = p + o[5:7]
+        p = p + o[8:11]
+        z = Ticket.objects.all()
+        po = z.count()
+        po = str(po)
+        print(po)
+        pnr = str(train1.id)+p+str(user.id)+po
+        # passenger_name = request.POST.get('name',None)
+        # age = request.POST.get('age',None)
+        ticke = Ticket(user=user,
+        pnr=pnr,status=status,date=date,train=train1,passenger_name=passenger_name,
+        age=age,seatno=seatno
+        )
+        ticke.save()
+        print(ticke)
+
+        train2 = Train.objects.filter(id=id2).first()
+        tcount = Ticket.objects.filter(date=date)
+        g=0
+        seatnos=[]
+        for i in range(1,20):
+            seatnos.append(0)
+        for i in tcount:
+                if i.train == train2:
+                        seatnos[i.seatno]=1;
+                        g=g+1
+        if g>=3:
+                status = "Waiting List"
+                seatno = 15
+        # return render(request,'home/starting.html')
+        else:
+            for i in range(1,4):
+                if seatnos[i]==0:
+                    seatno=i
+                    break
+            status = "Confirm"
+        o = str(date)
+        p = o[0:4]
+        p = p + o[5:7]
+        p = p + o[8:11]
+        z = Ticket.objects.all()
+        po = z.count()
+        po = str(po)
+        print(po)
+        pnr = str(train2.id)+p+str(user.id)+po
+        # passenger_name = request.POST.get('name',None)
+        # age = request.POST.get('age',None)
+        ticke = Ticket(user=user,
+        pnr=pnr,status=status,date=date,train=train2,passenger_name=passenger_name,
+        age=age,seatno=seatno
+        )
+        ticke.save()
+        print(ticke)
+        messages.success(request, f'You Ticket has been Booked Successfully')
+        return redirect('booking')
+
 
 def tickt(request,pnr):    
     tic = Ticket.objects.filter(pnr=pnr).first()

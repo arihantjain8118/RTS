@@ -27,14 +27,14 @@
     {{train.first_train.source}} - {{train.first_train.departure_time}} -> {{train.first_train.destination}} {{train.first_train.arrival_time}}
     <p>Availability :  <b>{{train.first_train.count}}</b></p>
   <p>Amount :  <b>{{train.first_train.amount}}</b></p>
-    <a href="{%url 'home-bookform' train.first_train.id train.first_train.date%}"><button>Book</button></a>
+    {% comment %} <a href="{%url 'home-bookform' train.first_train.id train.first_train.date%}"><button>Book</button></a> {% endcomment %}
   </li>
   <li class="list-group-item">    
     {{train.second_train.name}}<br> 
     {{train.second_train.source}} - {{train.second_train.departure_time}} -> {{train.second_train.destination}} {{train.second_train.arrival_time}}
     <p>Availability :  <b>{{train.second_train.count}}</b></p>
   <p>Amount :  <b>{{train.second_train.amount}}</b></p>
-    <a href="{%url 'home-bookform' train.second_train.id train.second_train.date%}"><button>Book</button></a>
+    <a href="{%url 'home-bookform2' train.first_train.id train.second_train.id train.first_train.date%}"><button>Book</button></a>
   </li>
   {% endfor %}
 </ul>
