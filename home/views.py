@@ -30,6 +30,8 @@ def starting(request):
 
 def search(request,source,destination,date):
     trains=[]
+    trains_with_extra_nodes = []
+    sources = []
     ptrains = (Train.objects.filter(source__iexact=source))
     for i in ptrains:
         basic=[]
@@ -48,11 +50,54 @@ def search(request,source,destination,date):
                     i.count=str((-i.count)+1)
                     i.count =z+i.count
             i.date = date
-        trains.append(i)
+            print(i)
+            trains.append(i)
+        else :
+            basic.append(i)
+            ticketcheck = Ticket.objects.filter(date=date)
+            countticket =0
+            for j in ticketcheck:
+                    if(j.train == i):
+                            countticket=countticket+1
+            basic.append(countticket)
+            i.count=3-countticket
+            if i.count<=0:
+                    z="WL "
+                    i.count=str((-i.count)+1)
+                    i.count =z+i.count
+            i.date = date
+            sources.append(i)
 
-    print(trains)
+
+    for sou in sources:
+        ptrains = (Train.objects.filter(source__iexact=sou.destination))
+        for i in ptrains:
+            basic=[]
+            print(i.destination.upper())
+            if(i.destination.upper() == destination.upper() and i.departure_time>sou.arrival_time):
+                basic.append(i)
+                ticketcheck = Ticket.objects.filter(date=date)
+                countticket =0
+                for j in ticketcheck:
+                        if(j.train == i):
+                                countticket=countticket+1
+                basic.append(countticket)
+                i.count=3-countticket
+                if i.count<=0:
+                        z="WL "
+                        i.count=str((-i.count)+1)
+                        i.count =z+i.count
+                i.date = date
+                train_with_one_node = {
+                    'first_train' : sou,
+                    'second_train' : i
+                }
+                trains_with_extra_nodes.append(train_with_one_node)
+                break
+
+    print(trains_with_extra_nodes)
     print("jbfjbjhfbdubcd")
-    context={'trains':trains}
+    context={'trains':trains, 'trains_with_extra_nodes': trains_with_extra_nodes}
     return render(request,'home/search.html',context)
 
 def ticketbook(request,id,date):
