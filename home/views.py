@@ -29,6 +29,8 @@ def starting(request):
     return render(request,'home/starting.html',{'user':user})
 
 def search(request,source,destination,date):
+    # date = date.now()
+    print(date)
     trains=[]
     trains_with_extra_nodes = []
     sources = []
